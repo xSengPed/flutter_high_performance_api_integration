@@ -1,8 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:isolation_test/models/post.dart';
+import 'package:lottie/lottie.dart';
 
 import '../bloc/posts_bloc.dart';
 
@@ -12,28 +12,19 @@ class PostsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Posts from Isolate'),
-      ),
-      body: Center(
-        // BlocBuilder handles rebuilding the UI in response to state changes.
-        child: BlocBuilder<PostsBloc, PostsState>(
-          builder: (context, state) {
-            if (state is PostsLoadInProgress) {
-              return const CircularProgressIndicator();
-            } else if (state is PostsLoadSuccess) {
-              return PostsList(posts: state.posts);
-            } else if (state is PostsLoadFailure) {
-              return Text(
-                'Failed to load posts:\n${state.error}',
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.red),
-              );
-            }
-            // Initial state
-            return const Text('Press a button to fetch posts.');
-          },
-        ),
+      appBar: AppBar(title: const Text('Posts from Isolate')),
+      body: Column(
+        children: [
+          //
+          ElevatedButton(
+            onPressed: () async {
+              EasyLoading.show();
+              await Future.delayed(Duration(seconds: 5));
+              EasyLoading.dismiss();
+            },
+            child: Text("TEST"),
+          ),
+        ],
       ),
     );
   }
@@ -60,7 +51,10 @@ class PostsList extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: ListTile(
               leading: CircleAvatar(child: Text(post.id.toString())),
-              title: Text(post.title, style: const TextStyle(fontWeight: FontWeight.bold)),
+              title: Text(
+                post.title,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Text(post.body),

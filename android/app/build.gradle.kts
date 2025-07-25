@@ -8,7 +8,8 @@ plugins {
 android {
     namespace = "com.example.isolation_test"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+//    ndkVersion = flutter.ndkVersion
+    ndkVersion = "21.3.6528147"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
